@@ -18,8 +18,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "actionpack", "~> 4.0"
-  spec.add_dependency "strong_parameters", "~> 0.2"
   spec.add_dependency "railties", "~> 4.0"
+  spec.add_dependency "strong_parameters", "~> 0.2"
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
