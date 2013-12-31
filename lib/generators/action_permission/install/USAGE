@@ -1,0 +1,3 @@
+Description:
+    Creates the app/permissions directory and stubs out application_permission.rb,
+    a base permission file used to extend controller-specific permissions for
