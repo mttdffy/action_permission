@@ -1,3 +1,16 @@
+__NOTICE:__
+The gem as it stands is not operational. 
+
+Things needed to be done:
+- establish load paths
+- setup generators (started but not established)
+    - this includes an initialization to generate `app/permissions` and `app/permission/application_permission.rb`
+    - generator to hook into existing scaffold generator to create a permission file when a controller is created.
+- setup testing environment and write tests
+
+
+----
+
 # ActionPermission
 
 A permission structure for defining both action-based and attribute-based permissions for rails 3+ applications. 
@@ -82,14 +95,41 @@ end
 
 ```
 
-Alternatively, you can overwrite `ActionPermission::Base#initialize` in the `ApplicationPermission` class to define your own way of determining a method to call.
+Alternatively, you can overwrite `ActionPermission::Base#load` in the `ApplicationPermission` class to define your own way of determining a method to call.
 
 ```ruby
+class ApplicationPermission < ActionPermission::Base
+  
+  def load(user)
+    user.role
+  end
 
+end
 
 ```
 
-TODO: Write usage instructions here
+Once you have setup, your controller has access to an `authorized?` method which will tell you if the current user has permission to access the current action
+
+```ruby
+# app/controllers/application_controller.rb
+ApplicationController < ActionController::Base
+  
+  before_action :check_permissions
+
+  def check_permissions
+    unless authorized?
+      flash[:warn] = "You do not have permission to access this page"
+      rediect_to root_url
+    end
+  end 
+end
+```
+
+## Contributors
+
+- Matt Duffy
+- Brian McElaney
+- Mark Platt
 
 ## Contributing
 
