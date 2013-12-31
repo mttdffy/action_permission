@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Matt Duffy", "Brian McElaney", "Mark Platt"]
   spec.email         = ["matt@mttdffy.com", "", ""]
   spec.summary       = "Controller-based action and attribute permissions"
-  spec.homepage      = "https://github.com/tamman/action_parameter"
+  spec.homepage      = "https://github.com/mttdffy/action_permission"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
@@ -17,8 +17,8 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "actionpack", "~> 4.0"
-  spec.add_dependency "railties", "~> 4.0"
+  spec.add_dependency "actionpack", ">= 3.2"
+  spec.add_dependency "railties", ">= 3.2"
   spec.add_dependency "strong_parameters", "~> 0.2"
 
   spec.add_development_dependency "bundler", "~> 1.3"
