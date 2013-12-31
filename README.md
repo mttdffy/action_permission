@@ -8,6 +8,7 @@ Things needed to be done:
     - this includes an initialization to generate `app/permissions` and `app/permissions/application_permission.rb`
     - generator to hook into existing scaffold generator to create a permission file when a controller is created.
 - setup testing environment and write tests
+- make sure it works in gem form
 
 
 ----
@@ -102,7 +103,8 @@ Alternatively, you can overwrite `ActionPermission::Base#load` in the `Applicati
 class ApplicationPermission < ActionPermission::Base
   
   def load(user)
-    user.role
+    @membership = user
+    send @membership.role
   end
 
 end
