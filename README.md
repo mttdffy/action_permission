@@ -1,10 +1,11 @@
-__NOTICE:__
-The gem as it stands is not operational. 
+## NOTICE
+__The gem as it stands is not operational.__
 
 Things needed to be done:
 - establish load paths
+  - so app loads `app/permissions` automatically
 - setup generators (started but not established)
-    - this includes an initialization to generate `app/permissions` and `app/permission/application_permission.rb`
+    - this includes an initialization to generate `app/permissions` and `app/permissions/application_permission.rb`
     - generator to hook into existing scaffold generator to create a permission file when a controller is created.
 - setup testing environment and write tests
 
