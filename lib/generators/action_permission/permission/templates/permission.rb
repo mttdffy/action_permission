@@ -1,5 +1,5 @@
 <% module_namespacing do -%>
-class <%= controller_class_name %>Permission < ApplicationPermission
+class <%= class_name %>Permission < ApplicationPermission
 
   # defines parameters for requests coming to associated object/controlelr
   # typically defines all attributes and uses except option to exclude
