@@ -3,7 +3,7 @@ require 'rails/generators/base'
 module ActionPermission
   module Generators
 
-    class InitGenerator < Rails::Generators::Base
+    class InstallGenerator < Rails::Generators::Base
       p "creating permissions directory"
       source_root File.expand_path("../templates", __FILE__)
 
