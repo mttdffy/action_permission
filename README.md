@@ -2,13 +2,8 @@
 __The gem as it stands is not operational.__
 
 Things needed to be done:
-- setup generators (started but not tested)
-    - this includes an initialization to generate `app/permissions` and `app/permissions/application_permission.rb`
-    - generator to hook into existing scaffold generator to create a permission file when a controller is created.
+- generator to hook into existing scaffold generator to create a permission file when a controller is created.
 - setup testing environment and write tests
-- make sure it works in gem form
-
-
 ----
 
 # ActionPermission
@@ -24,7 +19,7 @@ Add this line to your application's Gemfile:
 And then execute:
 
     $ bundle
-    $ rails generate action_permission:init
+    $ rails generate action_permission:install
 
 ## Usage
 
@@ -125,6 +120,22 @@ ApplicationController < ActionController::Base
   end 
 end
 ```
+
+## Generators
+
+    rails g action_permission:install
+    
+This will add the base application_permission.rb file as well as add some boilerplate code to the application controller
+
+    rails g action_permission:permission CONTROLLER [attribute, attribute, ...]
+    
+    rails g action_permission:permission users username name email role password_digest
+    
+This will generate a permission file for the supplied controller. YOu can pass in attributes to auto populate the params method for that permission object. In the future this will be added onto the scaffolding generator so you don't have to run this seperately
+
+
+
+
 
 ## Contributors
 
