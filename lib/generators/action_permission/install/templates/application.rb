@@ -21,7 +21,7 @@ class ApplicationPermission < ActionPermission::Base
   #   allow_rest_actions do |user|
   #     @membership.id == user.id
   #   end
-  #   allow_params except: [:id]
+  #   allow_params
   # end
 
   # def admin
