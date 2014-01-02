@@ -4,6 +4,7 @@ __The gem as it stands is not operational.__
 Things needed to be done:
 - generator to hook into existing scaffold generator to create a permission file when a controller is created.
 - setup testing environment and write tests
+
 ----
 
 # ActionPermission
