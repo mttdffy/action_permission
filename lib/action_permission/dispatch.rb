@@ -19,6 +19,7 @@ module ActionPermission
     end
 
     def allowed_params_for(resource, params)
+      resource = resource.to_s
       current_permission = load_permission resource.to_s.pluralize
       if current_permission && current_permission.allowed_params
         params.require(resource).permit *current_permission.allowed_params
@@ -45,9 +46,6 @@ module ActionPermission
 
       def get_class_name(controller)
         controller = controller.to_s
-        if controller.split("/").count > 1
-          controller = controller.split("/").join("_")
-        end
         return (controller.pluralize + "_permissions").classify.constantize
       end
 
