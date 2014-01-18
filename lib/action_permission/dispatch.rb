@@ -20,7 +20,7 @@ module ActionPermission
 
     def allowed_params_for(resource, params)
       resource = resource.to_s
-      current_permission = load_permission resource.to_s.pluralize
+      current_permission = load_permission resource.pluralize
       if current_permission && current_permission.allowed_params
         params.require(resource).permit *current_permission.allowed_params
       end
