@@ -24,7 +24,7 @@ $ rails generate action_permission:install
 
 ## Usage
 
-ActionPermission assumes you have the concept of user roles. This can be any field of any name. It's core action to load permissions for the controller handling the request, determine the user's access level, and call a method on the permission object that corresponds to that level. A permission file might look like this:
+ActionPermission assumes you have the concept of user roles. This can be any field of any name. It's core action is to load permissions for the controller handling the request, determine the user's access level, and call a method on the permission object that corresponds to that level. A permission file might look like this:
 
 ```ruby
 class BookPermission < ApplicationPermission
@@ -65,7 +65,7 @@ $ rails generate action_permission:install
 
 This generator will creating the `app/permissions` directory along with a `application_perimission.rb` file.
 
-Permissions should be placed in the `app/permissions` directory. Each permission will typically extend from `ApplicationPermission`, allow you to set default permissions for each role. 
+Permissions should be placed in the `app/permissions` directory. Each permission will typically extend from `ApplicationPermission`, allowing you to set default permissions for each role. 
 
 Additionally, the install generator will add some boilerplate code into your `ApplicationController` for setting up your application to work properly with ActionPermission. 
 
@@ -121,7 +121,7 @@ end
 
 ```
 
-Once you have setup, your controller has access to an `authorized?` method which will tell you if the current user has permission to access the current action
+Once you have it setup, your controller has access to an `authorized?` method which will tell you if the current user has permission to access the current action
 
 ```ruby
 # app/controllers/application_controller.rb
@@ -153,7 +153,7 @@ This will generate a permission file for the supplied controller. YOu can pass i
 ## Contributors
 
 - [Matt Duffy](https://github.com/mttdffy)
-- [Brian McElaney](https://github.com/bmcelaney)
+- [Brian McElaney](https://github.com/mcelaney)
 - [Mark Platt](https://github.com/mrkplt)
 
 ## Contributing
