@@ -1,9 +1,5 @@
-## NOTICE
-__The gem as it stands is not operational.__
-
-Things needed to be done:
-- generator to hook into existing scaffold generator to create a permission file when a controller is created.
-- setup testing environment and write tests
+__NOTICE: The gem as it stands is not production-ready.__
+_See [issues](https://github.com/mttdffy/action_permission/issues) for details_
 
 ----
 
@@ -15,12 +11,16 @@ A permission structure for defining both action-based and attribute-based permis
 
 Add this line to your application's Gemfile:
 
-    gem 'action_permission'
+```ruby
+gem 'action_permission'
+```
 
 And then execute:
 
-    $ bundle
-    $ rails generate action_permission:install
+```sh
+$ bundle
+$ rails generate action_permission:install
+```
 
 ## Usage
 
@@ -59,25 +59,41 @@ end
 
 ## Setup
 
+```sh
+$ rails generate action_permission:install
+```
+
+This generator will creating the `app/permissions` directory along with a `application_perimission.rb` file.
+
 Permissions should be placed in the `app/permissions` directory. Each permission will typically extend from `ApplicationPermission`, allow you to set default permissions for each role. 
+
+Additionally, the install generator will add some boilerplate code into your `ApplicationController` for setting up your application to work properly with ActionPermission. 
+
+```ruby
+#app/controllers/application_controller.rb
+
+authorize_with :current_user
+before_action :check_permission
+
+def current_user
+  @current_user ||= session[:user_id] ? User.find(session[:user_id]) : User.new
+end
+
+def check_permission
+  unless authorized?
+    #do something when user does not have permission to access page
+    # Flash[:warn] = "You do not have permission to access this page."
+    # redirect_to root_url
+  end
+end
+
+```
+
+This is a basic implementation that you can change and modify to work with your application's user role structure.
 
 Ultimately, ActionPermission looks to receive a string representing the name of the role/level of current user. It requires you to define a method on your `ApplicationController` to call when loading permissions. This method should return an object that can repond to a `#identify` method. `identify` method should return a string value of the current user's role
 
 ```ruby
-# app/controllers/application_controller.rb
-ApplicationController < ActionController::Base
-  
-  ...
-
-  authorize_with :current_user
-
-  def current_user
-    @current_user ||= session[:user_id] ? User.find(session[:user_id]) : User.new
-  end
-
-  ...
-end
-
 # app/models/user.rb
 class User < ActiveRecord::Base
 
@@ -134,15 +150,11 @@ This will add the base application_permission.rb file as well as add some boiler
     
 This will generate a permission file for the supplied controller. YOu can pass in attributes to auto populate the params method for that permission object. In the future this will be added onto the scaffolding generator so you don't have to run this seperately
 
-
-
-
-
 ## Contributors
 
-- Matt Duffy
-- Brian McElaney
-- Mark Platt
+- [Matt Duffy](https://github.com/mttdffy)
+- [Brian McElaney](https://github.com/bmcelaney)
+- [Mark Platt](https://github.com/mrkplt)
 
 ## Contributing
 
