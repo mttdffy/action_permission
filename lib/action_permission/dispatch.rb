@@ -2,7 +2,7 @@ module ActionPermission
 
   class Dispatch
     attr_accessor :membership, :permissions
-    
+
     def initialize(membership)
       @membership = membership
       @permissions = {}.with_indifferent_access
@@ -22,7 +22,7 @@ module ActionPermission
       resource = resource.to_s
       current_permission = load_permission resource.pluralize
       if current_permission && current_permission.allowed_params
-        params.require(resource).permit *current_permission.allowed_params
+        params.require(resource.split('/').last).permit *current_permission.allowed_params
       end
     end
 
