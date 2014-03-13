@@ -1,3 +1,6 @@
+require 'active_support/hash_with_indifferent_access'
+require 'active_support/inflector'
+
 module ActionPermission
 
   class Dispatch
@@ -5,7 +8,7 @@ module ActionPermission
 
     def initialize(membership)
       @membership = membership
-      @permissions = {}.with_indifferent_access
+      @permissions = HashWithIndifferentAccess.new
     end
 
     def allow?(controller, action, resource = nil)

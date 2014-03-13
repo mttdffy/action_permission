@@ -2,26 +2,9 @@ require 'spec_helper'
 
 describe ActionPermission::Base do
 
-  before do
-    class Membership
-      def identify
-        'guest'
-      end
-    end
-
-    class TestPermission < ActionPermission::Base
-      def params
-        [:show, :index]
-      end
-      def guest
-        allow([:show, :index])
-      end
-    end
-  end
-
   let(:membership) { Membership.new }
   let(:base_permission) { ActionPermission::Base.new(membership)}
-  let(:test_permission) { TestPermission.new(membership) }
+  let(:test_permission) { TestsPermission.new(membership) }
 
   describe '#load' do
     it 'should call #identify on object passed as membership' do
@@ -95,30 +78,30 @@ describe ActionPermission::Base do
 
   describe '#params' do
     it "should return array of all params allowed by permission" do
-      test_permission.params.should eq([:show, :index])
+      test_permission.params.should eq([:name, :email])
     end
   end
 
   describe '#allow_params' do
     it "should set the allowed_params for the permission object" do
-      test_permission.should_receive(:params).and_return([:show,:index])
+      test_permission.should_receive(:params).and_return([:name,:email])
       test_permission.allow_params
-      test_permission.allowed_params.should eq([:show, :index])
+      test_permission.allowed_params.should eq([:name, :email])
     end
 
     it "should call allow_params_with_options to handle options" do
       test_permission.should_receive(:allow_params_with_options)
-      test_permission.allow_params(except: :index)
+      test_permission.allow_params(except: :email)
     end
 
     it 'should exclude params from array based on except option' do
-      test_permission.allow_params(except: :index)
-      test_permission.allowed_params.should_not include(:index)
+      test_permission.allow_params(except: :email)
+      test_permission.allowed_params.should_not include(:email)
     end
 
     it 'should include only params pasted from the only option' do
-      test_permission.allow_params(only: :show)
-      test_permission.allowed_params.should_not include(:index)
+      test_permission.allow_params(only: :name)
+      test_permission.allowed_params.should_not include(:email)
     end
   end
 

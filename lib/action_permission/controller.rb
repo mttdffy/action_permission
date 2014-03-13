@@ -1,36 +1,22 @@
+require 'active_support/core_ext/object'
+require 'active_support/dependencies'
+require 'abstract_controller/helpers'
+
 module ActionPermission
 
   module Controller
+    extend ActiveSupport::Concern
+    include AbstractController::Helpers
 
-    def self.included(base)
-      base.extend ClassMethods
-      base.delegate :allow?, to: :current_permission
-      base.delegate :allow_param?, to: :current_permission
-      base.delegate :allowed_params_for, to: :current_permission
-      base.delegate :allow_param?, to: :current_permission
-      base.helper_method :allow?
-      base.helper_method :allow_param?
-      base.helper_method :current_permission
+    included do
+      delegate :allow?, to: :current_permission
+      delegate :allow_param?, to: :current_permission
+      delegate :allowed_params_for, to: :current_permission
+      delegate :allow_param?, to: :current_permission
+      helper_method :allow?
+      helper_method :allow_param?
+      helper_method :current_permission
     end
-
-    def current_resource
-      logger.warn "WARNING: #{self.class} has not yet implemented #current_resource"
-      nil
-    end
-
-    def current_permission
-      @current_permission ||= ActionPermission::Dispatch.new(permission_authorizer)
-    end
-
-    private
-
-      def permission_authorizer
-        send self.class.permission_authorizer
-      end
-
-      def authorized?
-        current_permission.allow?(params[:controller], params[:action], current_resource)
-      end
 
     module ClassMethods
 
@@ -44,6 +30,25 @@ module ActionPermission
       end
 
     end
+
+    def current_resource
+      nil
+    end
+
+    def current_permission
+      @current_permission ||= ActionPermission::Dispatch.new(permission_authorizer)
+    end
+
+    def authorized?
+      current_permission.allow?(params[:controller], params[:action], current_resource)
+    end
+
+    private
+
+    def permission_authorizer
+      send self.class.permission_authorizer
+    end
+
 
   end
 
