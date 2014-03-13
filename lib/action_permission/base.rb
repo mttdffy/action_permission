@@ -2,7 +2,7 @@ module ActionPermission
 
   class Base
 
-    class << self 
+    class << self
 
       def match_with source,to
         Array(to).each do |role|
@@ -13,7 +13,7 @@ module ActionPermission
     end
 
     attr_accessor :membership
-    attr_reader :allowed_params
+    attr_reader :allowed_params, :allow_actions
 
     def initialize(membership)
       load membership
@@ -49,7 +49,7 @@ module ActionPermission
 
       if options
         @allowed_params = allow_params_with_options options
-      else 
+      else
         @allowed_params = Array(params)
       end
     end
