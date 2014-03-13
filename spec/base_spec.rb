@@ -10,20 +10,23 @@ describe ActionPermission::Base do
     end
 
     class TestPermission < ActionPermission::Base
+      def params
+        [:show, :index]
+      end
       def guest
-        allow[:show, :index]
+        allow([:show, :index])
       end
     end
   end
 
   let(:membership) { Membership.new }
-  let(:base_permission) { ActionPermission.new(membership)}
+  let(:base_permission) { ActionPermission::Base.new(membership)}
   let(:test_permission) { TestPermission.new(membership) }
 
   describe '#load' do
     it 'should call #identify on object passed as membership' do
       membership.should_receive(:identify)
-      ActionPermission::Base.new(membership)
+      base_permission
     end
 
     it 'should call a method on the permission equal to the value returned by membership#idenify' do
@@ -48,19 +51,19 @@ describe ActionPermission::Base do
     end
 
     it 'should return false if keys value is a proc but no resource exists' do
-      base_permission.allow [:show] { 'test' }
+      base_permission.allow([:show]){ 'test' }
       base_permission.allow?(:show).should be_false
     end
 
     context "with a provided resource" do
       it 'should return true if keys value is a proc that returns truthy' do
-        base_permission.allow [:show], true { |resource|  resource }
-        base_permission.allow?(:show).should be_true
+        base_permission.allow([:show]){ |resource|  resource }
+        base_permission.allow?(:show, true).should be_true
       end
 
       it 'should return false if keys value is a proc that returns falsey' do
-        base_permission.allow [:show], true { |resource|  false }
-        base_permission.allow?(:show).should be_false
+        base_permission.allow([:show]){ |resource|  false }
+        base_permission.allow?(:show, true).should be_false
       end
     end
   end
@@ -83,19 +86,40 @@ describe ActionPermission::Base do
   end
 
   describe '#allow_rest_actions' do
-
+    it "should add all 7 basic rest actions to allowed_actions" do
+      base_permission.allow_rest_actions
+      base_permission.allowed_actions.keys.size.should eq(7)
+      base_permission.allowed_actions.keys.should eq(['index', 'new', 'create', 'show', 'edit', 'update', 'destroy'])
+    end
   end
 
   describe '#params' do
-
+    it "should return array of all params allowed by permission" do
+      test_permission.params.should eq([:show, :index])
+    end
   end
 
   describe '#allow_params' do
+    it "should set the allowed_params for the permission object" do
+      test_permission.should_receive(:params).and_return([:show,:index])
+      test_permission.allow_params
+      test_permission.allowed_params.should eq([:show, :index])
+    end
 
-  end
+    it "should call allow_params_with_options to handle options" do
+      test_permission.should_receive(:allow_params_with_options)
+      test_permission.allow_params(except: :index)
+    end
 
-  describe '#allow_params_with_options' do
+    it 'should exclude params from array based on except option' do
+      test_permission.allow_params(except: :index)
+      test_permission.allowed_params.should_not include(:index)
+    end
 
+    it 'should include only params pasted from the only option' do
+      test_permission.allow_params(only: :show)
+      test_permission.allowed_params.should_not include(:index)
+    end
   end
 
 end

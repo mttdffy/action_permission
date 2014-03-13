@@ -6,7 +6,7 @@ describe ActionPermission::Controller do
 
     class TestController
       include ActionPermission::Controller
-      authorize_with: :current_user
+      authorize_with :current_user
       def current_user
         "current_user"
       end

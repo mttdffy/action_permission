@@ -49,4 +49,4 @@ module ActionPermission
 
 end
 
-ActionController::Base.send :include, ActionPermission::Controller
+ActionController::Base.send :include, ActionPermission::Controller if ENV['RAILS']
