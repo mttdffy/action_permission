@@ -1,3 +1,3 @@
 module ActionPermission
-  VERSION = "0.5.8"
+  VERSION = "0.9.2"
 end
