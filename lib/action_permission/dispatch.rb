@@ -21,11 +21,16 @@ module ActionPermission
       end
     end
 
-    def allowed_params_for(resource, params)
-      resource = resource.to_s
-      current_permission = load_permission resource.pluralize
+    # 'book/review', params #=> controller == 'books/reviews'
+    # 'book/review', params, 'reviews' #=> controller == 'reviews'
+    def allowed_params_for(resource, params, controller=nil)
+      controller  = set_controller(resource, controller)
+      resource    = set_resource(resource)
+
+      current_permission = load_permission(controller)
+
       if current_permission && current_permission.allowed_params
-        params.require(resource.split('/').last).permit *current_permission.allowed_params
+        params.require(resource).permit *current_permission.allowed_params
       end
     end
 
@@ -40,6 +45,36 @@ module ActionPermission
     end
 
     private
+
+      def set_controller(resource, controller)
+        if controller
+          case controller
+          when String, Symbol
+            controller.to_s.pluralize
+          else
+            (controller.is_a?(Class) ? controller : controller.class).
+              name.underscore.gsub('_controller', '')
+          end
+        else
+          case resource
+          when String, Symbol
+            resource.to_s
+          else
+            (resource.is_a?(Class) ? resource : resource.class).
+              name.underscore
+          end.
+          split('/').map(&:pluralize).join('/')
+        end
+      end
+
+      def set_resource(resource)
+        case resource
+        when String, Symbol
+          resource.to_s.parameterize("_")
+        else
+          (resource.is_a?(Class) ? resource : resource.class).model_name.param_key
+        end
+      end
 
       def load_permission(controller)
         klass = get_class_name(controller)

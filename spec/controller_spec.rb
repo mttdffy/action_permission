@@ -12,20 +12,20 @@ describe ActionPermission::Controller do
     end
   end
 
-  let (:controller) { TestController.new }
+  let (:controller) { TestsController.new }
   let (:bad_controller) { BadController.new }
 
   describe 'included' do
     it "should add delegate methods" do
-      TestController.instance_methods.should include(:allow?)
-      TestController.instance_methods.should include(:allow_param?)
-      TestController.instance_methods.should include(:allowed_params_for)
+      TestsController.instance_methods.should include(:allow?)
+      TestsController.instance_methods.should include(:allow_param?)
+      TestsController.instance_methods.should include(:allowed_params_for)
     end
 
     it "should add helper methods" do
-      TestController._helper_methods.should include(:allow?)
-      TestController._helper_methods.should include(:allow_param?)
-      TestController._helper_methods.should include(:current_permission)
+      TestsController._helper_methods.should include(:allow?)
+      TestsController._helper_methods.should include(:allow_param?)
+      TestsController._helper_methods.should include(:current_permission)
     end
   end
 
@@ -50,7 +50,7 @@ describe ActionPermission::Controller do
   describe ".permission_authorizer" do
 
     it "should respond as the method define with authorize_with" do
-      TestController.permission_authorizer.should eq(:current_user)
+      TestsController.permission_authorizer.should eq(:current_user)
     end
   end
 

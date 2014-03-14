@@ -4,6 +4,10 @@ require 'rspec'
 require './lib/action_permission.rb'
 
 require 'abstract_controller/helpers'
+require 'active_record'
+require 'nulldb/rails'
+
+ActiveRecord::Base.establish_connection :adapter => :nulldb
 
 class Membership
   def identify
@@ -21,7 +25,7 @@ class TestsPermission < ActionPermission::Base
   end
 end
 
-class TestController
+class TestsController
   include ActionPermission::Controller
   authorize_with :current_user
   def current_user
