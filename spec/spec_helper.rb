@@ -30,6 +30,9 @@ class TestController
   def current_resource
     "current_resource"
   end
+  def params
+    {controller: "tests", action: "show"}
+  end
 end
 
 RSpec.configure do |config|

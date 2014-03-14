@@ -16,7 +16,21 @@ describe ActionPermission::Controller do
   let (:bad_controller) { BadController.new }
 
   describe '.authorize_with' do
+    before do
+      class SomeController
+        include ActionPermission::Controller
+        authorize_with :dub_dub
+        def dub_dub; end
+      end
+    end
 
+    it 'should set permission_authorizer' do
+      SomeController.permission_authorizer.should eq(:dub_dub)
+    end
+
+    it 'should add method to helper methods' do
+      SomeController._helper_methods.should include(:dub_dub)
+    end
   end
 
   describe ".permission_authorizer" do
@@ -45,7 +59,29 @@ describe ActionPermission::Controller do
   end
 
   describe '#authorize?' do
+    it 'should pass the current controller and action into dispatch' do
+      dispatch = double
+      allow(dispatch).to receive(:allow?).and_return(true)
 
+      controller.should_receive(:current_permission).
+        and_return(dispatch)
+
+      dispatch.should_receive(:allow?).
+        with("tests", "show", "current_resource")
+
+      controller.authorized?
+    end
+
+    it "should return true if action is allowed" do
+      controller.authorized?
+    end
+
+    it "should return false if action is not allowed" do
+      controller.should_receive(:params).and_return({controller: "tests", action: "new"})
+      controller.should_receive(:params).and_return({controller: "tests", action: "new"})
+
+      controller.authorized?
+    end
   end
 
 end
