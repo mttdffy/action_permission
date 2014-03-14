@@ -12,7 +12,6 @@ module ActionPermission
       delegate :allow?, to: :current_permission
       delegate :allow_param?, to: :current_permission
       delegate :allowed_params_for, to: :current_permission
-      delegate :allow_param?, to: :current_permission
       helper_method :allow?
       helper_method :allow_param?
       helper_method :current_permission

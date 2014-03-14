@@ -15,6 +15,20 @@ describe ActionPermission::Controller do
   let (:controller) { TestController.new }
   let (:bad_controller) { BadController.new }
 
+  describe 'included' do
+    it "should add delegate methods" do
+      TestController.instance_methods.should include(:allow?)
+      TestController.instance_methods.should include(:allow_param?)
+      TestController.instance_methods.should include(:allowed_params_for)
+    end
+
+    it "should add helper methods" do
+      TestController._helper_methods.should include(:allow?)
+      TestController._helper_methods.should include(:allow_param?)
+      TestController._helper_methods.should include(:current_permission)
+    end
+  end
+
   describe '.authorize_with' do
     before do
       class SomeController
