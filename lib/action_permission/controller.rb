@@ -53,4 +53,4 @@ module ActionPermission
 
 end
 
-ActionController::Base.send :include, ActionPermission::Controller if ENV['RAILS']
+ActionController::Base.send :include, ActionPermission::Controller if defined?(ActionController)
