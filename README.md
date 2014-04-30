@@ -55,7 +55,8 @@ end
 
 - the `params` method can be used to define attributes allowed to be modified by that user level in addition to their allowed actions, which can be further refined for each level using `except` and `only options`.
 - the `@membership` attribute is set on initialization of the permission object. See setup for details in 'Setup'
-
+- passing a `do` block into `#allow` will allow for more control over each roles permission to those actions.
+  - the value passed into the block is the return value of the current controller's `#current_resource` method.
 
 ## Setup
 
