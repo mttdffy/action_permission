@@ -6,12 +6,6 @@ module Rails
     class ActionPermissionControllerGenerator < ScaffoldControllerGenerator
       argument :attributes, :type => :array, :default => [], :banner => "field:type field:type"
       source_root File.expand_path("../templates", __FILE__)
-
-      if ::Rails::VERSION::STRING < '3.1'
-        def module_namespacing
-          yield if block_given?
-        end
-      end
     end
   end
 end

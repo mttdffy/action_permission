@@ -1,13 +1,10 @@
 Description:
     Stubs out a scaffolded controller and its views. Different from rails
-    scaffold_controller, it uses strong_parameters to whitelist permissible
-    attributes in a private method.
-    Pass the model name, either CamelCased or under_scored. The controller
-    name is retrieved as a pluralized version of the model name.
-
-    With ActionPermission, it replaces the default strong_parameters
-    call with a call to allowed_params_for that loads the permission file
-    to determined whitelisted parameters
+    scaffold_controller, it uses strong_parameters via action_permission
+    to whitelist permissible attributes in a private method.
+    Pass the model name, either CamelCased or under_scored, the parameters
+    and optionally the controller instance (otherwise, the controller
+    name is retrieved as a pluralized version of the model name)
 
     To create a controller within a module, specify the model name as a
     path like 'parent_module/controller_name'.
